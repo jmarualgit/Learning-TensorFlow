@@ -155,3 +155,4 @@ Name: 2, dtype: object
     # higher change of survival; probably because female?
 
 # note: model isn't perfect
+# needs more data
