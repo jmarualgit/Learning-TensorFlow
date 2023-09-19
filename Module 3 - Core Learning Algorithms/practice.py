@@ -47,3 +47,42 @@ print(feature_columns)
 
 # training process
 # epoch = one stream of entire dataset
+
+# input function; the way we define how the data will be broken into batches and epochs
+
+# takes data and encodes in a tf.data.Dataset object 
+    # because need a Dataset object to see data and create a model
+# taken straight from TensorFlow documentation (https://www.tensorflow.org/tutorials/estimator/linear)
+
+# explaining the parameters of function make_input_fn
+"""
+    data_df: pandas dataframe
+    label_df: the labels dataframe; the y_train, y_eval etc.
+    num_epochs: how many epochs will be done
+    shuffle: will shuffle/mix before passing to model or not
+    batch_size: how many elements will be given to model while training
+"""
+# outer function makes an input_function and returns the function object to wherever called from
+def make_input_fn(data_df, label_df, num_epochs=10, shuffle=True, batch_size=32):
+    
+    # inner function, this will be returned
+    def input_function():  
+        
+        # create tf.data.Dataset object with data and its label
+        ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))  
+        
+        if shuffle:
+            # shuffles the data set/randomize order of data
+            ds = ds.shuffle(1000)
+        
+        # split dataset into batches of 32 and repeat process for number of epochs
+        ds = ds.batch(batch_size).repeat(num_epochs)
+        
+        # return a batch of the dataset
+        return ds
+    return input_function  # return a function object for use
+
+train_input_fn = make_input_fn(dftrain, y_train)  # here we will call the input_function that was returned to us to get a dataset object we can feed to the model
+eval_input_fn = make_input_fn(dfeval, y_eval, num_epochs=1, shuffle=False)
+
+
