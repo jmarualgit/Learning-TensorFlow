@@ -95,9 +95,63 @@ linear_est.train(train_input_fn)  # train
 result = linear_est.evaluate(eval_input_fn)  # get model metrics/stats by testing on tetsing data
 
 clear_output()  # clears console output
-print(result['accuracy'])  # the result variable is simply a dict of stats about our model
+#print(result['accuracy'])  # the result variable is simply a dict of stats about our model
 
 # printed out '0.7613636'; will prob be different each time because shuffled each time
 
 # result is a dictionary object and can reference any key needed / wanted
 # print(result)
+
+# making predictions
+result = list(linear_est.predict(eval_input_fn))
+
+# a dictionary of one prediction
+print(result[0]['probabilities'][1])
+    # prints out [0.8350972  0.16490284] (different for everytime run) without the [1]
+    # want to find the change of surviving (surviving = 1; dead = 0) so index 1
+
+# did they survive or not
+print("did they survive?")
+print(y_eval.loc[2])    
+
+# look at person predicted for
+print(dfeval.loc[0])
+
+# the outcome
+"""
+0.042104978
+sex                          male
+age                          35.0
+n_siblings_spouses              0
+parch                           0
+fare                         8.05
+class                       Third
+deck                      unknown
+embark_town           Southampton
+alone                           y
+Name: 0, dtype: object
+"""
+
+# compare it to next person
+print(result[2]['probabilities'][1])
+print("did they survive?")
+print(y_eval.loc[2])
+print(dfeval.loc[2])
+
+# the outcome
+"""
+0.86056805
+sex                        female
+age                          58.0
+n_siblings_spouses              0
+parch                           0
+fare                        26.55
+class                       First
+deck                            C
+embark_town           Southampton
+alone                           y
+Name: 2, dtype: object
+"""
+    # higher change of survival; probably because female?
+
+# note: model isn't perfect
