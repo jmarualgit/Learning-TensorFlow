@@ -18,6 +18,8 @@ CSV_COLUMN_NAMES = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'S
 SPECIES = ['Setosa', 'Versicolor', 'Virginica']
 
 # loading our data sets and putting into train_path & test_path
+# how get data is slightly different each time
+# keras is a submodule of tensorflow
 train_path = tf.keras.utils.get_file(
     "iris_training.csv", "https://storage.googleapis.com/download.tensorflow.org/data/iris_training.csv")
 test_path = tf.keras.utils.get_file(
