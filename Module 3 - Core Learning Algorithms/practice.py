@@ -85,4 +85,19 @@ def make_input_fn(data_df, label_df, num_epochs=10, shuffle=True, batch_size=32)
 train_input_fn = make_input_fn(dftrain, y_train)  # here we will call the input_function that was returned to us to get a dataset object we can feed to the model
 eval_input_fn = make_input_fn(dfeval, y_eval, num_epochs=1, shuffle=False)
 
+# Linear Classifier object from estimator module from TensorFlow
+# creates an estimator; a basic implementation
+linear_est = tf.estimator.LinearClassifier(feature_columns=feature_columns)
 
+# training the model
+# give the input function
+linear_est.train(train_input_fn)  # train
+result = linear_est.evaluate(eval_input_fn)  # get model metrics/stats by testing on tetsing data
+
+clear_output()  # clears console output
+print(result['accuracy'])  # the result variable is simply a dict of stats about our model
+
+# printed out '0.7613636'; will prob be different each time because shuffled each time
+
+# result is a dictionary object and can reference any key needed / wanted
+# print(result)
